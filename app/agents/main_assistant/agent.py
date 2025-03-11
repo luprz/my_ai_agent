@@ -3,7 +3,6 @@ from app.tools.calculator import CalculatorTool
 from app.llms.gemini.model import Gemini
 from app.agents.main_assistant.personality import PERSONALITY
 from app.memories.buffer_memory import BufferMemory
-from app.memories.supabase_memory import SupabaseMemory
 
 class MainAgent:
     """Agent class for apartment administration.
@@ -16,6 +15,6 @@ class MainAgent:
             llm=Gemini.get_llm(model="models/gemini-2.0-flash", temperature=0.5),
             system_message=PERSONALITY,
             tools=[CalculatorTool()],
-            memory=SupabaseMemory(session_id=session_id, interactions=50, table_name="chat_history")
+            memory=BufferMemory()
         )
         return agent.execute(input)
