@@ -39,20 +39,4 @@ class Agent:
         # Execute the agent and return the result
         result = agent_executor.invoke({"input": input, "chat_history": chat_history})["output"]
         # Update chat history with the new interaction
-        return self.better_response(result)
-
-    def better_response(self, result):
-        # Create a prompt to improve the response
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", "Your task is to improve the following response by making it more coherent, natural, and user-friendly while preserving all essential information. Remove any technical artifacts and maintain a consistent, professional tone. IMPORTANT: You must respond in the same language as the input message."),
-            ("human", result)
-        ])
-
-        # Use the same LLM instance to process the response
-        chain = prompt | self.llm
-
-        # Get the improved response
-        improved_response = chain.invoke({})
-        print("AI: ", improved_response.content)
-        return improved_response.content
-        
+        return result
