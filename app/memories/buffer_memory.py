@@ -13,18 +13,21 @@ class BufferMemory:
     _sessions: Dict[str, List] = {}
     _lock = Lock()
 
-    def __new__(cls, session_id: str = "default"):
+    def __new__(cls, session_id: str = "default", interactions: int = 50):
         if cls._instance is None:
             cls._instance = super(BufferMemory, cls).__new__(cls)
+            cls._instance.interactions = interactions
         return cls._instance
 
-    def __init__(self, session_id: str = "default"):
+    def __init__(self, session_id: str = "default", interactions: int = 50):
         """Initialize the buffer memory with session support.
         
         Args:
             session_id: The unique identifier for the chat session.
+            interactions: Maximum number of interactions to keep (default: 50)
         """
         self.session_id = session_id
+        self.interactions = interactions
 
     def add_message(self, human: str, ai: str):
         """Add a message to the session buffer.
@@ -40,6 +43,10 @@ class BufferMemory:
                 HumanMessage(content=human),
                 AIMessage(content=ai)
             ])
+            
+            # Remove old messages if exceeding the interactions limit
+            if len(self._sessions[self.session_id]) > self.interactions * 2:
+                self._sessions[self.session_id] = self._sessions[self.session_id][-self.interactions * 2:]
 
     def get_chat_history(self) -> List:
         """Retrieve the chat history for the current session.

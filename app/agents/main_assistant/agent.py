@@ -15,6 +15,6 @@ class MainAgent:
             llm=Gemini.get_llm(model="models/gemini-2.0-flash", temperature=0.5),
             system_message=PERSONALITY,
             tools=[CalculatorTool()],
-            memory=BufferMemory(session_id=session_id)
+            memory=BufferMemory(session_id=session_id, interactions=30)
         )
         return agent.execute(input)
