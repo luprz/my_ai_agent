@@ -17,7 +17,7 @@ class ChatAgent:
 
     def execute(self, input):
         chat_history = self.memory.get_chat_history()
-        # Prompt moderno usando formato de chat
+        # Prompt template for the agent
         prompt = ChatPromptTemplate.from_messages([
             ("system", self.system_message),
             MessagesPlaceholder(variable_name="chat_history"),
@@ -25,10 +25,10 @@ class ChatAgent:
             MessagesPlaceholder(variable_name="agent_scratchpad"),
         ])
 
-        # Crear el agente con formato moderno de herramientas
+        # Create the agent using the tools and prompt
         agent = create_openai_tools_agent(self.llm, self.tools, prompt)
 
-        # Configurar el ejecutor del agente
+        # Configure the agent executor
         agent_executor = AgentExecutor(
             agent=agent,
             tools=self.tools,
