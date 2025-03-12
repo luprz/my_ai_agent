@@ -8,7 +8,7 @@ class IMemory(BaseModel):
     def add_message(self, human: str, ai: str):
         return
 
-class Agent:
+class ChatAgent:
     def __init__(self, llm, system_message, tools, memory: IMemory) -> None:
         self.tools = tools
         self.system_message = system_message
