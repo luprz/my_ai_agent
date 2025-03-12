@@ -60,7 +60,7 @@ class ChatHistoryResponse(BaseModel):
 
 @router.get("/conversation/history/{session_id}", response_model=ChatHistoryResponse)
 async def get_chat_history(session_id: str):
-    memory = BufferMemory()
+    memory = BufferMemory(session_id=session_id)
     messages = memory.get_chat_history()
     formatted_messages = [
         {"role": "human" if isinstance(msg, HumanMessage) else "assistant", "content": msg.content}

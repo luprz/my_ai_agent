@@ -2,6 +2,7 @@ from typing import TypedDict, Annotated, Sequence
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
 from app.agents.main_assistant.agent import MainAgent
+from app.memories.buffer_memory import BufferMemory
 
 class WorkflowState(TypedDict):
     session_id: str
@@ -16,6 +17,11 @@ def main_assistant(
     last_message = messages[-1]
     response = agent.execute(session_id=session_id, input=last_message.content)
     final_response = AIMessage(content=response)
+    
+    # Store the conversation in buffer memory
+    memory = BufferMemory(session_id=session_id)
+    memory.add_message(human=last_message.content, ai=response)
+    
     return {"messages": messages + [final_response]}
 
 class MainWorkflow:
