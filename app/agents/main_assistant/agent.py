@@ -1,7 +1,7 @@
 from app.utils.chat_agent import ChatAgent
 from app.tools.calculator import CalculatorTool
 from app.llms.gemini.model import Gemini
-from app.agents.main_assistant.personality import PERSONALITY
+from app.agents.main_assistant.personality import SYSTEM_MESSAGE
 from app.memories.buffer_memory import BufferMemory
 from pydantic import BaseModel
 from typing import Type
@@ -23,7 +23,7 @@ class MainAgent:
         try:
             agent = ChatAgent(
                 llm=Gemini.get_llm(model="models/gemini-2.0-flash", temperature=0.5),
-                system_message=PERSONALITY,
+                system_message=SYSTEM_MESSAGE,
                 tools=[CalculatorTool()],
                 memory=BufferMemory(session_id=session_id, interactions=30)
             )

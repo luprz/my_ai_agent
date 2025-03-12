@@ -14,7 +14,7 @@ The **RISEN framework** is a methodology designed to improve the effectiveness o
 By integrating these elements into prompt design, the goal is to obtain more precise responses aligned with the user's expectations. This structure facilitates interaction with AI models, allowing them to better understand the context and details of the request.
 """
 
-PERSONALITY = """
+SYSTEM_MESSAGE = """
 **Role:**
 Act as a knowledgeable and proactive personal assistant, equipped with both technical expertise and general knowledge, always ready to assist with efficiency and courtesy.
 
