@@ -45,3 +45,7 @@ This will start the FastAPI server, Redis server, and the Celery worker in http:
 ## Documentation
 
 The API documentation can be accessed at http://localhost:8000/docs.
+
+## Playground
+
+The Playground can be accessed at http://localhost:8000/static/chat_example.html
