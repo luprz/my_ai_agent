@@ -2,8 +2,12 @@ from typing import TypedDict, Annotated, Sequence
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
 from app.agents.main_assistant.agent import MainAgent
-from app.memories.buffer_memory import BufferMemory
+from pydantic import BaseModel
+from typing import Type
 
+class MainAgentInput(TypedDict):
+    session_id: str
+    input: str
 class WorkflowState(TypedDict):
     session_id: str
     messages: Annotated[Sequence[HumanMessage | AIMessage], "The chat history"]
@@ -17,14 +21,13 @@ def main_assistant(
     last_message = messages[-1]
     response = agent.execute(session_id=session_id, input=last_message.content)
     final_response = AIMessage(content=response)
-    
-    # Store the conversation in buffer memory
-    memory = BufferMemory(session_id=session_id)
-    memory.add_message(human=last_message.content, ai=response)
-    
     return {"messages": messages + [final_response]}
 
 class MainWorkflow:
+    name: str = "main_workflow"
+    description: str = """Main workflow"""
+    args_schema: Type[BaseModel] = MainAgentInput
+
     def __init__(self):
         self.graph = StateGraph(WorkflowState)
         self.graph.add_node("ask_to_main_assistant", main_assistant)

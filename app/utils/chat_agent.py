@@ -39,4 +39,5 @@ class ChatAgent:
         # Execute the agent and return the result
         result = agent_executor.invoke({"input": input, "chat_history": chat_history})["output"]
         # Update chat history with the new interaction
+        self.memory.add_message(input, result)
         return result
