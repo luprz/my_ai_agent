@@ -1,7 +1,7 @@
 from typing import TypedDict, Annotated, Sequence
 from langchain_core.messages import HumanMessage, AIMessage
 from langgraph.graph import StateGraph, END
-from app.agents.main_assistant.agent import MainAgent
+from app.agents.main_agent.agent import MainAgent
 from pydantic import BaseModel
 from typing import Type
 
